@@ -1,3 +1,17 @@
 @charset "utf-8";
 /* CSS Document */
-
+table {
+	background-color: gray;
+	color: white;
+	border: .13rem solid black;
+}
+th {
+	padding-right: 1rem;
+	padding-left: 1rem;
+}
+td {
+	border: .14rem solid black;
+}
+td:hover {
+	background-color: green;
+}
