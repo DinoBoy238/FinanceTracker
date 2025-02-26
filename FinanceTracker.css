@@ -6,11 +6,14 @@ table {
 	border: .13rem solid black;
 }
 th {
+	color: lightblue;
 	padding-right: 1rem;
 	padding-left: 1rem;
 }
 td {
+	color: #CDB4FF;
 	border: .14rem solid black;
+	text-align: center;
 }
 td:hover {
 	background-color: green;
