@@ -18,3 +18,59 @@ td {
 td:hover {
 	background-color: green;
 }
+.current-day {
+	background-color: yellow;
+	color: black;
+}
+
+#input {
+	text-align: center;
+	background-color: rgb(138, 193, 255);
+	color: black;
+	border: .14rem solid black;
+}
+
+#listTitle {
+	text-align: center;
+	background-color: rgb(138, 193, 255);
+	color: black;
+	border: .14rem solid black;
+}
+
+#addExpense {
+	text-align: center;
+	background-color: rgb(255, 88, 88);
+	color: rgb(0, 0, 0);
+	border: .14rem solid black;
+}
+
+#addIncome {
+	text-align: center;
+	background-color: rgb(88, 255, 124);
+	color: rgb(0, 0, 0);
+	border: .14rem solid black;
+}
+
+.expense {
+	background-color: rgb(255, 88, 88);
+	color: white;
+	text-align: center;
+	border: .14rem solid black;
+}
+
+.income {
+	background-color: rgb(88, 255, 124);
+	color: white;
+	text-align: center;
+	border: .14rem solid black;
+}
+
+.removeButton {
+	background-color: rgb(255, 0, 0);
+	color: white;
+	border: .14rem solid black;
+	margin-left: 1rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	margin-right: 1rem;
+}
