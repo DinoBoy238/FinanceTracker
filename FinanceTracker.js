@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		selectedDay = day;
 	}
 
-
 	for (var i = 2; i < 8; i++){
 		for (var y = 1; y < 8; y++) {
 			//Backticks to properly interpolate the varible into the string
@@ -26,11 +25,12 @@ document.addEventListener("DOMContentLoaded", function() {
 			z++;
 		}
 	}
-	updateSelectedDay(days[date-1]); /* make it so when you click a day it changes this to that day and highlights that new day and unhilghts the old day, maybe make it so that same function has the original change color in it too to clean things up*/
+	updateSelectedDay(days[date-1]);
 	console.log(days[date-1]);
 
 	const currentDay = new Date().getDay();
 	const rows = document.querySelectorAll("table tr");
+
 	rows.forEach(function(row) {
 		const cells = row.querySelectorAll("td");
 		cells.forEach(function(cell) {
@@ -40,3 +40,30 @@ document.addEventListener("DOMContentLoaded", function() {
 		});
 	});
 })
+function addExpenses() {
+	var expense = document.createElement("div");
+	expense.className = "expense";
+	expense.innerHTML = document.getElementById("input").value;
+	document.getElementById("listTitle").appendChild(expense);
+	var button = document.createElement("button");
+	button.innerHTML = "-";
+	button.className = "removeButton";
+	button.onclick = removeExpense;
+	expense.appendChild(button);
+}
+
+function addIncome() {
+	var income = document.createElement("div");
+	income.className = "income";
+	income.innerHTML = document.getElementById("input").value;
+	document.getElementById("listTitle").appendChild(income);
+	var button = document.createElement("button");
+	button.innerHTML = "-";
+	button.className = "removeButton";
+	button.onclick = removeExpense;
+	income.appendChild(button);
+}
+
+function removeExpense() {
+	document.getElementById("listTitle").removeChild(this.parentElement);
+}
