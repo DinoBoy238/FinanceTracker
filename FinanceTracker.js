@@ -41,27 +41,73 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 })
 function addExpenses() {
-	var expense = document.createElement("div");
-	expense.className = "expense";
-	expense.innerHTML = document.getElementById("input").value;
-	document.getElementById("listTitle").appendChild(expense);
-	var button = document.createElement("button");
-	button.innerHTML = "-";
-	button.className = "removeButton";
-	button.onclick = removeExpense;
-	expense.appendChild(button);
+	if (document.getElementById("input").value) {
+		if (document.getElementById("price-input").value) {
+			var expense = document.createElement("div");
+			expense.className = "expense";
+			expense.innerHTML = document.getElementById("input").value;
+			document.getElementById("listTitle").appendChild(expense);
+			var button = document.createElement("button");
+			button.innerHTML = "-";
+			button.className = "removeButton";
+			button.onclick = removeExpense;
+			expense.appendChild(button);
+			document.getElementById("input").value="";
+			document.getElementById("price-input").value="";
+			document.getElementById("input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
+			document.getElementById("price-input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
+		}
+		else {
+			document.getElementById("price-input").style.backgroundColor = "red";
+			document.getElementById("input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
+		}
+	}
+	else {
+		if (document.getElementById("price-input").value) {
+			document.getElementById("input").style.backgroundColor = "red";
+			document.getElementById("price-input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
+		}
+		else {
+			document.getElementById("price-input").style.backgroundColor = "red";
+			document.getElementById("input").style.backgroundColor = "red";
+		}
+	}
+
 }
 
 function addIncome() {
-	var income = document.createElement("div");
-	income.className = "income";
-	income.innerHTML = document.getElementById("input").value;
-	document.getElementById("listTitle").appendChild(income);
-	var button = document.createElement("button");
-	button.innerHTML = "-";
-	button.className = "removeButton";
-	button.onclick = removeExpense;
-	income.appendChild(button);
+	if (document.getElementById("input").value) {
+		if (document.getElementById("price-input").value) {
+			var income = document.createElement("div");
+			income.className = "income";
+			income.innerHTML = document.getElementById("input").value;
+			document.getElementById("listTitle").appendChild(income);
+			var button = document.createElement("button");
+			button.innerHTML = "-";
+			button.className = "removeButton";
+			button.onclick = removeExpense;
+			income.appendChild(button);
+			document.getElementById("input").value="";
+			document.getElementById("price-input").value ="";
+			document.getElementById("input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
+			document.getElementById("price-input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
+		}
+		else {
+			document.getElementById("price-input").style.backgroundColor = "red";
+			document.getElementById("input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
+
+		}
+	}
+	else {
+		if (document.getElementById("price-input").value) {
+			document.getElementById("input").style.backgroundColor = "red";
+			document.getElementById("price-input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
+		}
+		else {
+			document.getElementById("price-input").style.backgroundColor = "red";
+			document.getElementById("input").style.backgroundColor = "red";
+		}
+	}
 }
 
 function removeExpense() {
