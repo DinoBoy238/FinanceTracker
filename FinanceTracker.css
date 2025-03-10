@@ -1,5 +1,4 @@
 @charset "utf-8";
-/* CSS Document */
 table {
 	background-color: gray;
 	color: white;
@@ -24,6 +23,13 @@ td:hover {
 }
 
 #input {
+	text-align: center;
+	background-color: rgb(138, 193, 255);
+	color: black;
+	border: .14rem solid black;
+}
+
+#price-input {
 	text-align: center;
 	background-color: rgb(138, 193, 255);
 	color: black;
@@ -60,7 +66,7 @@ td:hover {
 
 .income {
 	background-color: rgb(88, 255, 124);
-	color: white;
+	color: light-gray;
 	text-align: center;
 	border: .14rem solid black;
 }
