@@ -1,21 +1,22 @@
 /*Make an array for all of the days in the calendar and then have the td or tr:nth-child(x) in it for each position in the calendar so you can easily just acceses the array to find a postion based on its nth day, and have a starting varible so when you have day 1 start like 3 days in because its a teusday you just add or subtract that to the array calculatitons */
 //Waiting for page to load because some varibles need the content of page
+var selectedDay;
+var today = new Date();
+var year = today.getFullYear();
+var month = today.getMonth();
+var day = today.getMonth();
+var date = today.getDate();
+var days = [];
+let z = 0;
+var currentDay;
+// Object to store totals for each day
+var dailyTotals = [];
+var dailyList = [];
 document.addEventListener("DOMContentLoaded", function() {
-	var today = new Date();
-	var year = today.getFullYear();
-	var month = today.getMonth();
-	var day = today.getMonth();
-	var date = today.getDate();
-	var days = [];
-	var selectedDay;
-	let z = 0;
-	
-	// Object to store totals for each day
-	var dailyTotals = {};
-
 	function updateSelectedDay(day) {
 		if (selectedDay) {
 			document.getElementById(selectedDay).style.backgroundColor = "gray";
+			dailyList[selectedDay][0] = this.hide;
 		}
 		document.getElementById(day).style.backgroundColor = "green";
 		selectedDay = day;
@@ -28,15 +29,15 @@ document.addEventListener("DOMContentLoaded", function() {
 		for (var y = 1; y < 8; y++) {
 			//Backticks to properly interpolate the varible into the string
 			days.push(Number(document.querySelector(`tr:nth-child(${i}) td:nth-child(${y})`).id = z));
-			// Initialize totals array for each day
 			dailyTotals[z] = [];
+			dailyList[z] = [];
 			z++;
 		}
 	}
 	updateSelectedDay(days[date-1]);
 	console.log(days[date-1]);
 
-	const currentDay = new Date().getDay();
+	currentDay = new Date().getDay();
 	const rows = document.querySelectorAll("table tr");
 
 	rows.forEach(function(row) {
@@ -48,13 +49,12 @@ document.addEventListener("DOMContentLoaded", function() {
 		});
 	});
 })
-
 function updateTotalDisplay() {
 	if (!dailyTotals[selectedDay]) {
 		dailyTotals[selectedDay] = [];
 	}
 	let finalTotal = dailyTotals[selectedDay].reduce((a, b) => Number(a) + Number(b), 0);
-	document.getElementById("total").innerHTML = "Total: $" + finalTotal.toFixed(2);
+	document.getElementById("total").innerHTML = "Day Total: $" + finalTotal.toFixed(2);
 }
 
 function addExpenses() {
@@ -77,6 +77,8 @@ function addExpenses() {
 			document.getElementById("price-input").value="";
 			document.getElementById("input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
 			document.getElementById("price-input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
+			dailyList[currentDay][0] = expense;
+			dailyList[currentDay][1] = button;
 			updateTotalDisplay();
 		}
 		else {
