@@ -10,7 +10,11 @@ var days = [];
 let z = 0;
 var currentDay;
 var dailyTotals = [];
+var dailyExpenses = [];
+var dailyIncome = [];
 var dailyList = [];
+var totalExpenses = 0;
+var totalIncome = 0;
 document.addEventListener("DOMContentLoaded", function() {
 	function updateSelectedDay(day) {
 		if (selectedDay) {
@@ -28,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		document.getElementById(day).style.backgroundColor = "green";
 		selectedDay = day;
 		
-		updateTotalDisplay();
+		updateTotalsDisplay();
 	}
 
 	for (var i = 2; i < 8; i++){
@@ -36,6 +40,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			//Backticks to properly interpolate the varible into the string
 			days.push(Number(document.querySelector(`tr:nth-child(${i}) td:nth-child(${y})`).id = z));
 			dailyTotals[z] = [];
+			dailyExpenses[z] =[];
+			dailyIncome[z] = [];
 			dailyList[z] = [];
 			z++;
 		}
@@ -55,12 +61,27 @@ document.addEventListener("DOMContentLoaded", function() {
 		});
 	});
 })
-function updateTotalDisplay() {
-	if (!dailyTotals[selectedDay]) {
-		dailyTotals[selectedDay] = [];
+function updateTotalsDisplay() {
+	let incomeTotal = dailyIncome[selectedDay].reduce((a, b) => Number(a) + Number(b), 0);
+	let expenseTotal = dailyExpenses[selectedDay].reduce((a, b) => Number(a) + Number(b), 0);
+	let finalTotal = incomeTotal + expenseTotal;
+	document.getElementById("currentDayBalance").innerHTML = "Day Current Balance: $" + finalTotal.toFixed(2);
+	
+	totalExpenses = 0;
+	totalIncome = 0;
+	for (let i = 0; i < 43; i++) {
+		if (dailyIncome[i]) {
+			totalExpenses += dailyExpenses[i].reduce((a, b) => Number(a) + Number(b), 0);
+		}
+		if (dailyExpenses[i]) {
+			totalIncome += dailyIncome[i].reduce((a, b) => Number(a) + Number(b), 0);
+		}
 	}
-	let finalTotal = dailyTotals[selectedDay].reduce((a, b) => Number(a) + Number(b), 0);
-	document.getElementById("total").innerHTML = "Day Total: $" + finalTotal.toFixed(2);
+	
+	let totalFinal = totalIncome + totalExpenses;
+	document.getElementById("totalExpenses").innerHTML = "Total Expenses: $" + totalExpenses.toFixed(2);
+	document.getElementById("totalIncome").innerHTML = "Total Income: $" + totalIncome.toFixed(2);
+	document.getElementById("totalBalance").innerHTML = "Total Balance: $" + totalFinal.toFixed(2);
 }
 
 function addExpenses() {
@@ -73,7 +94,7 @@ function addExpenses() {
 			expense.dataset.amount = amount;
 			expense.dataset.day = selectedDay;
 			document.getElementById("listTitle").appendChild(expense);
-			dailyTotals[selectedDay].push(amount);
+			dailyExpenses[selectedDay].push(amount);
 			var button = document.createElement("button");
 			button.innerHTML = "-";
 			button.className = "removeButton";
@@ -85,7 +106,7 @@ function addExpenses() {
 			document.getElementById("price-input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
 			dailyList[currentDay][0] = expense;
 			dailyList[currentDay][1] = button;
-			updateTotalDisplay();
+			updateTotalsDisplay();
 		}
 		else {
 			document.getElementById("price-input").style.backgroundColor = "red";
@@ -114,17 +135,17 @@ function addIncome() {
 			income.dataset.amount = amount;
 			income.dataset.day = selectedDay;
 			document.getElementById("listTitle").appendChild(income);
-			dailyTotals[selectedDay].push(amount);
+			dailyIncome[selectedDay].push(amount);
 			var button = document.createElement("button");
 			button.innerHTML = "-";
 			button.className = "removeButton";
-			button.onclick = removeExpense;
+			button.onclick = removeIncome;
 			income.appendChild(button);
 			document.getElementById("input").value="";
 			document.getElementById("price-input").value ="";
 			document.getElementById("input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
 			document.getElementById("price-input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
-			updateTotalDisplay();
+			updateTotalsDisplay();
 		}
 		else {
 			document.getElementById("price-input").style.backgroundColor = "red";
@@ -147,10 +168,22 @@ function removeExpense() {
 	const element = this.parentElement;
 	const amount = Number(element.dataset.amount);
 	const day = element.dataset.day;
-	const index = dailyTotals[day].indexOf(amount);
+	const index = dailyExpenses[day].indexOf(amount);
 	if (index > -1) {
-		dailyTotals[day].splice(index, 1);
+		dailyExpenses[day].splice(index, 1);
 	}
 	document.getElementById("listTitle").removeChild(element);
-	updateTotalDisplay();
+	updateTotalsDisplay();
+}
+
+function removeIncome() {
+	const element = this.parentElement;
+	const amount = Number(element.dataset.amount);
+	const day = element.dataset.day;
+	const index = dailyIncome[day].indexOf(amount);
+	if (index > -1) {
+		dailyIncome[day].splice(index, 1);
+	}
+	document.getElementById("listTitle").removeChild(element);
+	updateTotalsDisplay();
 }
