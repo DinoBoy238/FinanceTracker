@@ -9,7 +9,6 @@ var date = today.getDate();
 var days = [];
 let z = 0;
 var currentDay;
-// Object to store totals for each day
 var dailyTotals = [];
 var dailyList = [];
 document.addEventListener("DOMContentLoaded", function() {
@@ -22,7 +21,6 @@ document.addEventListener("DOMContentLoaded", function() {
 				element.style.display = "none";
 			});
 		}
-		// Show elements for newly selected day
 		const newElements = document.querySelectorAll(`[data-day="${day}"]`);
 		newElements.forEach(element => {
 			element.style.display = "block";
@@ -30,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		document.getElementById(day).style.backgroundColor = "green";
 		selectedDay = day;
 		
-		// Update display with the selected day's total
 		updateTotalDisplay();
 	}
 
@@ -73,8 +70,8 @@ function addExpenses() {
 			expense.className = "expense";
 			var amount = document.getElementById("price-input").value * -1;
 			expense.innerHTML = document.getElementById("input").value + " $-" + Math.abs(amount);
-			expense.dataset.amount = amount; // Store amount for removal
-			expense.dataset.day = selectedDay; // Store which day this expense belongs to
+			expense.dataset.amount = amount;
+			expense.dataset.day = selectedDay;
 			document.getElementById("listTitle").appendChild(expense);
 			dailyTotals[selectedDay].push(amount);
 			var button = document.createElement("button");
@@ -114,8 +111,8 @@ function addIncome() {
 			income.className = "income";
 			var amount = Number(document.getElementById("price-input").value);
 			income.innerHTML = document.getElementById("input").value + " $" + amount;
-			income.dataset.amount = amount; // Store amount for removal
-			income.dataset.day = selectedDay; // Store which day this income belongs to
+			income.dataset.amount = amount;
+			income.dataset.day = selectedDay;
 			document.getElementById("listTitle").appendChild(income);
 			dailyTotals[selectedDay].push(amount);
 			var button = document.createElement("button");
