@@ -16,8 +16,17 @@ document.addEventListener("DOMContentLoaded", function() {
 	function updateSelectedDay(day) {
 		if (selectedDay) {
 			document.getElementById(selectedDay).style.backgroundColor = "gray";
-			dailyList[selectedDay][0] = this.hide;
+			// Hide elements from previously selected day
+			const elements = document.querySelectorAll(`[data-day="${selectedDay}"]`);
+			elements.forEach(function(element) {
+				element.style.display = "none";
+			});
 		}
+		// Show elements for newly selected day
+		const newElements = document.querySelectorAll(`[data-day="${day}"]`);
+		newElements.forEach(element => {
+			element.style.display = "block";
+		});
 		document.getElementById(day).style.backgroundColor = "green";
 		selectedDay = day;
 		
