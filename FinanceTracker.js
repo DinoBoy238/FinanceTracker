@@ -15,6 +15,10 @@ var dailyIncome = [];
 var dailyList = [];
 var totalExpenses = 0;
 var totalIncome = 0;
+let w = 0;
+let x = 0;
+var expensesNumber = [];
+var incomesNumber = [];
 document.addEventListener("DOMContentLoaded", function() {
 	function updateSelectedDay(day) {
 		if (selectedDay) {
@@ -69,19 +73,38 @@ function updateTotalsDisplay() {
 	
 	totalExpenses = 0;
 	totalIncome = 0;
+	averageExpenses = 0;
+	averageIncome = 0;
 	for (let i = 0; i < 43; i++) {
-		if (dailyIncome[i]) {
+		if (dailyExpenses[i] != null) {
 			totalExpenses += dailyExpenses[i].reduce((a, b) => Number(a) + Number(b), 0);
+			averageExpenses += dailyExpenses[i].reduce((a,b) => Number(a) + Number(b), 0);
+			if (dailyExpenses[i].reduce((a,b) => Number(a) + Number(b), 0) != 0) {
+				expensesNumber.push(dailyExpenses[i].reduce((a,b) => Number(a) + Number(b), 0));
+			}
 		}
-		if (dailyExpenses[i]) {
+		if (dailyIncome[i]) {
 			totalIncome += dailyIncome[i].reduce((a, b) => Number(a) + Number(b), 0);
+			averageIncome += dailyIncome[i].reduce((a,b) => Number(a) + Number(b), 0)
+			if (dailyIncome[i].reduce((a,b) => Number(a) + Number(b), 0) != 0) {
+				incomesNumber.push(dailyIncome[i].reduce((a,b) => Number(a) + Number(b), 0));
+			}
 		}
 	}
 	
 	let totalFinal = totalIncome + totalExpenses;
+	console.log(w);
+	console.log(averageExpenses);
+	console.log(averageExpenses);
 	document.getElementById("totalExpenses").innerHTML = "Total Expenses: $" + totalExpenses.toFixed(2);
 	document.getElementById("totalIncome").innerHTML = "Total Income: $" + totalIncome.toFixed(2);
 	document.getElementById("totalBalance").innerHTML = "Total Balance: $" + totalFinal.toFixed(2);
+	document.getElementById("monthlyExpenses").innerHTML = "Monthly Expenses: $" + totalExpenses.toFixed(2);
+	document.getElementById("monthlyIncome").innerHTML = "Monthly Income: $" + totalIncome.toFixed(2);
+	document.getElementById("monthlyBalance").innerHTML = "Monthly Balance: $" + totalFinal.toFixed(2);
+	document.getElementById("averageExpenses").innerHTML = "Average Daily Expenses: $" + (averageExpenses/expensesNumber.length).toFixed(2);
+	document.getElementById("averageIncome").innerHTML = "Average Daily Income: $" + (averageIncome/incomesNumber.length).toFixed(2);
+	document.getElementById("averageBalance").innerHTML = "Average Daily Balance: $" + Number((averageIncome/incomesNumber.length).toFixed(2)+(averageExpenses/expensesNumber.length).toFixed(2));
 }
 
 function addExpenses() {
