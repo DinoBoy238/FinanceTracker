@@ -41,6 +41,15 @@ td:hover {
 	background-color: rgb(138, 193, 255);
 	color: black;
 	border: .14rem solid black;
+	width: 91%;
+}
+
+#stats {
+	text-align: center;
+	background-color: rgb(138, 193, 255);
+	color: black;
+	border: .14rem solid black;
+	width: 91%;
 }
 
 #addExpense {
@@ -79,4 +88,39 @@ td:hover {
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 	margin-right: 1rem;
+}
+
+.total {
+	text-align: center;
+	background-color: rgb(138, 255, 247);
+	color: black;
+	border: .14rem solid black;
+	width: 45%;
+	display: inline-block;
+}
+
+.monthly {
+	text-align: center;
+	background-color: rgb(138, 138, 255);
+	color: black;
+	border: .14rem solid black;
+	width: 45%;
+	display: inline-block;
+}
+
+.average {
+	text-align: center;
+	background-color: rgb(196, 138, 255);
+	color: black;
+	border: .14rem solid black;
+	width: 45%;
+	display: inline-block;
+}
+
+.currentDay {
+	text-align: center;
+	background-color: rgb(138, 255, 196);
+	color: black;
+	border: .14rem solid black;
+	width: 91%;
 }
