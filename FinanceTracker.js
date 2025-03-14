@@ -21,16 +21,10 @@ let w = 0;
 let x = 0;
 var expensesNumber = [];
 var incomesNumber = [];
+var change = month;
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 document.addEventListener("DOMContentLoaded", function() {
-	function populateCalendar() {
-		let w = 1;
-		for (i = firstDay; i < lastDay + firstDay; i++) {
-			document.getElementById(i).innerHTML = w;
-			document.getElementById(i).style = "color: #CDB4FF";
-			w++;
-		}
-	}
 
 	function updateSelectedDay(day) {
 		if (selectedDay) {
@@ -66,6 +60,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	currentDay = new Date().getDay();
 	const rows = document.querySelectorAll("table tr");
+	//document.getElementById("next").onclick = populateCalendar(1);
+	//document.getElementById("back").onclick = populateCalendar(-1);
 
 	rows.forEach(function(row) {
 		const cells = row.querySelectorAll("td");
@@ -119,9 +115,30 @@ function updateTotalsDisplay(remove, expense, income) {
 	document.getElementById("monthlyExpenses").innerHTML = "Monthly Expenses: $" + totalExpenses.toFixed(2);
 	document.getElementById("monthlyIncome").innerHTML = "Monthly Income: $" + totalIncome.toFixed(2);
 	document.getElementById("monthlyBalance").innerHTML = "Monthly Balance: $" + totalFinal.toFixed(2);
-	document.getElementById("averageExpenses").innerHTML = "Average Expenses Per Today: $" + avgExpensePerDay.toFixed(2);
-	document.getElementById("averageIncome").innerHTML = "Average Incomes Per Today: $" + avgIncomePerDay.toFixed(2);
+	document.getElementById("averageExpenses").innerHTML = "Average Expenses For Today: $" + avgExpensePerDay.toFixed(2);
+	document.getElementById("averageIncome").innerHTML = "Average Incomes For Today: $" + avgIncomePerDay.toFixed(2);
 	document.getElementById("averageBalance").innerHTML = "Current Day Balance: $" + finalTotal.toFixed(2);
+}
+
+function populateCalendar(move) {
+	if (move) {
+		change = change + move;
+	}
+	firstDay = new Date(year, change, 1).getDay();
+	lastDay = new Date(year, change+1, 0).getDate();
+	let w = 1;
+	for (i = 0; i < 42; i++) {
+		if (i >= firstDay && i < lastDay + firstDay) {
+			document.getElementById(i).innerHTML = w;
+			document.getElementById(i).style = "color: #CDB4FF";
+			w++;
+		}
+		else {
+			document.getElementById(i).style = "color: transparent";
+		}
+	}
+	document.getElementById("monthTitle").innerHTML = months[new Date(year, change, 1).getMonth()];
+	document.getElementById("yearTitle").innerHTML = new Date(year, change, 1).getFullYear();
 }
 
 function addExpenses() {
