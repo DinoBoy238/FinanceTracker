@@ -7,6 +7,7 @@ var month = today.getMonth();
 var day = today.getDay();
 var date = today.getDate();
 var firstDay = new Date(year, month, 1).getDay();
+var lastDay = new Date(year, month+1, 0).getDate();
 var days = [];
 let z = 0;
 var currentDay;
@@ -23,7 +24,12 @@ var incomesNumber = [];
 
 document.addEventListener("DOMContentLoaded", function() {
 	function populateCalendar() {
-		
+		let w = 1;
+		for (i = firstDay; i < lastDay + firstDay; i++) {
+			document.getElementById(i).innerHTML = w;
+			document.getElementById(i).style = "color: #CDB4FF";
+			w++;
+		}
 	}
 
 	function updateSelectedDay(day) {
@@ -56,6 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 	}
 	updateSelectedDay(days[date-1]);
+	populateCalendar();
 
 	currentDay = new Date().getDay();
 	const rows = document.querySelectorAll("table tr");
