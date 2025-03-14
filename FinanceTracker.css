@@ -4,6 +4,16 @@ table {
 	color: white;
 	border: .13rem solid black;
 }
+
+#monthTitle {
+	color: aqua;
+	font-size: 2rem;
+}
+#yearTitle {
+	color: aqua;
+	font-size: 2rem;
+}
+
 th {
 	color: lightblue;
 	padding-right: 1rem;
@@ -13,10 +23,12 @@ td {
 	color: #CDB4FF;
 	border: .14rem solid black;
 	text-align: center;
+	color: transparent;
 }
 td:hover {
 	background-color: green;
 }
+
 .current-day {
 	background-color: yellow;
 	color: black;
