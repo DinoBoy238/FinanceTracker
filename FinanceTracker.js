@@ -24,12 +24,14 @@ var incomesNumber = [];
 var change = month;
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
+console.log(month);
+
 document.addEventListener("DOMContentLoaded", function() {
 
 	function updateSelectedDay(day) {
 		if (selectedDay) {
-			document.getElementById(selectedDay.day).style.backgroundColor = "gray";
-			const elements = document.querySelectorAll(`[data-day="${selectedDay.day}"]`);
+			document.getElementById(selectedDay).style.backgroundColor = "gray";
+			const elements = document.querySelectorAll(`[data-day="${selectedDay}"]`);
 			elements.forEach(function(element) {
 				element.style.display = "none";
 			});
@@ -38,30 +40,36 @@ document.addEventListener("DOMContentLoaded", function() {
 		newElements.forEach(element => {
 			element.style.display = "block";
 		});
-		document.getElementById(day).style.backgroundColor = "green";
-		selectedDay = { day: day, month: change };
+		document.getElementById(selectedDay).style.backgroundColor = "green";
+		selectedDay = day;
 		
 		updateTotalsDisplay(remove = false);
 	}
 
 	for (var i = 2; i < 8; i++){
-		for (var y = 1; y < 8; y++) {
-			//Backticks to properly interpolate the varible into the string
-			days.push(Number(document.querySelector(`tr:nth-child(${i}) td:nth-child(${y})`).id = z));
-			dailyTotals[z] = [];
-			dailyExpenses[z] =[];
-			dailyIncome[z] = [];
-			dailyList[z] = [];
-			z++;
+		for (var m = 0; m < 12; m++) {
+			dailyTotals[m] = [];
+			dailyExpenses[m] = [];
+			dailyIncome[m] = [];
+			dailyList[m] = [];
+			for (var y = 1; y < 8; y++) {
+				//Backticks to properly interpolate the varible into the string
+				days.push(Number(document.querySelector(`tr:nth-child(${i}) td:nth-child(${y})`).id = z));
+				dailyTotals[m][z] = [];
+				dailyExpenses[m][z] =[];
+				dailyIncome[m][z] = [];
+				dailyList[m][z] = [];
+				z++;
+			}
 		}
 	}
+	console.log(days);
+	console.log(days[date-1]);
 	updateSelectedDay(days[date-1]);
 	populateCalendar();
 
 	currentDay = new Date().getDay();
 	const rows = document.querySelectorAll("table tr");
-	//document.getElementById("next").onclick = populateCalendar(1);
-	//document.getElementById("back").onclick = populateCalendar(-1);
 
 	rows.forEach(function(row) {
 		const cells = row.querySelectorAll("td");
@@ -73,11 +81,11 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 })
 function updateTotalsDisplay(remove, expense, income) {
-	let incomeTotal = dailyIncome[selectedDay.day].reduce((a, b) => Number(a) + Number(b), 0);
-	let expenseTotal = dailyExpenses[selectedDay.day].reduce((a, b) => Number(a) + Number(b), 0);
+	let incomeTotal = dailyIncome[month][selectedDay.day].reduce((a, b) => Number(a) + Number(b), 0);
+	let expenseTotal = dailyExpenses[month][selectedDay.day].reduce((a, b) => Number(a) + Number(b), 0);
 	let finalTotal = incomeTotal + expenseTotal;
-	let numExpenses = dailyExpenses[selectedDay.day].length;
-	let numIncomes = dailyIncome[selectedDay.day].length;
+	let numExpenses = dailyExpenses[month][selectedDay.day].length;
+	let numIncomes = dailyIncome[month][selectedDay.day].length;
 	let avgExpensePerDay;
 	let avgIncomePerDay;
 
@@ -98,11 +106,11 @@ function updateTotalsDisplay(remove, expense, income) {
 	totalIncome = 0;
 	
 	for (let i = 0; i < 43; i++) {
-		if (dailyExpenses[i] != null) {
-			totalExpenses += dailyExpenses[i].reduce((a, b) => Number(a) + Number(b), 0);
+		if (dailyExpenses[month][i] != null) {
+			totalExpenses += dailyExpenses[month][i].reduce((a, b) => Number(a) + Number(b), 0);
 		}
-		if (dailyIncome[i]) {
-			totalIncome += dailyIncome[i].reduce((a, b) => Number(a) + Number(b), 0);
+		if (dailyIncome[month][i]) {
+			totalIncome += dailyIncome[month][i].reduce((a, b) => Number(a) + Number(b), 0);
 		}
 	}
 	
@@ -151,7 +159,7 @@ function addExpenses() {
 			expense.dataset.amount = amount;
 			expense.dataset.day = selectedDay.day;
 			document.getElementById("listTitle").appendChild(expense);
-			dailyExpenses[selectedDay.day].push(amount);
+			dailyExpenses[month][selectedDay.day].push(amount);
 			var button = document.createElement("button");
 			button.innerHTML = "-";
 			button.className = "removeButton";
@@ -161,8 +169,8 @@ function addExpenses() {
 			document.getElementById("price-input").value="";
 			document.getElementById("input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
 			document.getElementById("price-input").style.backgroundColor = "rgb(" +138+ "," +193+ "," +255+ ")";
-			dailyList[currentDay][0] = expense;
-			dailyList[currentDay][1] = button;
+			dailyList[month][currentDay][0] = expense;
+			dailyList[month][currentDay][1] = button;
 			updateTotalsDisplay(false, true, false);
 		}
 		else {
@@ -192,7 +200,7 @@ function addIncome() {
 			income.dataset.amount = amount;
 			income.dataset.day = selectedDay.day;
 			document.getElementById("listTitle").appendChild(income);
-			dailyIncome[selectedDay.day].push(amount);
+			dailyIncome[month][selectedDay.day].push(amount);
 			var button = document.createElement("button");
 			button.innerHTML = "-";
 			button.className = "removeButton";
@@ -225,9 +233,9 @@ function removeExpense() {
 	const element = this.parentElement;
 	const amount = Number(element.dataset.amount);
 	const day = element.dataset.day;
-	const index = dailyExpenses[day].indexOf(amount);
+	const index = dailyExpenses[month][day].indexOf(amount);
 	if (index > -1) {
-		dailyExpenses[day].splice(index, 1);
+		dailyExpenses[month][day].splice(index, 1);
 	}
 	expensesNumber.pop();
 	document.getElementById("listTitle").removeChild(element);
@@ -238,9 +246,9 @@ function removeIncome() {
 	const element = this.parentElement;
 	const amount = Number(element.dataset.amount);
 	const day = element.dataset.day;
-	const index = dailyIncome[day].indexOf(amount);
+	const index = [month][day].indexOf(amount);
 	if (index > -1) {
-		dailyIncome[day].splice(index, 1);
+		dailyIncome[month][day].splice(index, 1);
 	}
 	incomesNumber.pop();
 	document.getElementById("listTitle").removeChild(element);
