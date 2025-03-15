@@ -24,36 +24,43 @@ var incomesNumber = [];
 var change = month;
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
-console.log(month);
 
 document.addEventListener("DOMContentLoaded", function() {
 
-	function updateSelectedDay(day) {
+	function updateSelectedDay(DAY) {
 		if (selectedDay) {
 			document.getElementById(selectedDay).style.backgroundColor = "gray";
+			document.getElementById(selectedDay).style.color = "rgb(48, 97, 222)"
 			const elements = document.querySelectorAll(`[data-day="${selectedDay}"]`);
 			elements.forEach(function(element) {
 				element.style.display = "none";
 			});
 		}
-		const newElements = document.querySelectorAll(`[data-day="${day}"]`);
+		
+		currentElement = document.getElementById(DAY);
+			currentElement.style.backgroundColor = "green";
+			currentElement.style.color = "white";
+		
+		const newElements = document.querySelectorAll(`[data-day="${DAY}"]`);
 		newElements.forEach(element => {
 			element.style.display = "block";
 		});
-		document.getElementById(selectedDay).style.backgroundColor = "green";
-		selectedDay = day;
-		
-		updateTotalsDisplay(remove = false);
+
+		selectedDay = DAY;
+		updateTotalsDisplay();
 	}
 
-	for (var i = 2; i < 8; i++){
-		for (var m = 0; m < 12; m++) {
-			dailyTotals[m] = [];
-			dailyExpenses[m] = [];
-			dailyIncome[m] = [];
-			dailyList[m] = [];
+	for (var m = 0; m < 12; m++) {
+		dailyTotals[m] = [];
+		dailyExpenses[m] = [];
+		dailyIncome[m] = [];
+		dailyList[m] = [];
+		for (var i = 2; i < 8; i++){
 			for (var y = 1; y < 8; y++) {
 				//Backticks to properly interpolate the varible into the string
+				if (z > 41) {
+					z = 0;
+				}
 				days.push(Number(document.querySelector(`tr:nth-child(${i}) td:nth-child(${y})`).id = z));
 				dailyTotals[m][z] = [];
 				dailyExpenses[m][z] =[];
@@ -63,10 +70,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 		}
 	}
-	console.log(days);
-	console.log(days[date-1]);
-	updateSelectedDay(days[date-1]);
 	populateCalendar();
+	updateSelectedDay(days[date-1]+firstDay);
 
 	currentDay = new Date().getDay();
 	const rows = document.querySelectorAll("table tr");
@@ -80,12 +85,13 @@ document.addEventListener("DOMContentLoaded", function() {
 		});
 	});
 })
+
 function updateTotalsDisplay(remove, expense, income) {
-	let incomeTotal = dailyIncome[month][selectedDay.day].reduce((a, b) => Number(a) + Number(b), 0);
-	let expenseTotal = dailyExpenses[month][selectedDay.day].reduce((a, b) => Number(a) + Number(b), 0);
+	let incomeTotal = dailyIncome[month][selectedDay].reduce((a, b) => Number(a) + Number(b), 0);
+	let expenseTotal = dailyExpenses[month][selectedDay].reduce((a, b) => Number(a) + Number(b), 0);
 	let finalTotal = incomeTotal + expenseTotal;
-	let numExpenses = dailyExpenses[month][selectedDay.day].length;
-	let numIncomes = dailyIncome[month][selectedDay.day].length;
+	let numExpenses = dailyExpenses[month][selectedDay].length;
+	let numIncomes = dailyIncome[month][selectedDay].length;
 	let avgExpensePerDay;
 	let avgIncomePerDay;
 
@@ -138,7 +144,7 @@ function populateCalendar(move) {
 	for (i = 0; i < 42; i++) {
 		if (i >= firstDay && i < lastDay + firstDay) {
 			document.getElementById(i).innerHTML = w;
-			document.getElementById(i).style = "color: #CDB4FF";
+			document.getElementById(i).style = "color:rgb(48, 97, 222)";
 			w++;
 		}
 		else {
@@ -157,9 +163,9 @@ function addExpenses() {
 			var amount = document.getElementById("price-input").value * -1;
 			expense.innerHTML = document.getElementById("input").value + " $-" + Math.abs(amount);
 			expense.dataset.amount = amount;
-			expense.dataset.day = selectedDay.day;
+			expense.dataset.day = selectedDay;
 			document.getElementById("listTitle").appendChild(expense);
-			dailyExpenses[month][selectedDay.day].push(amount);
+			dailyExpenses[month][selectedDay].push(amount);
 			var button = document.createElement("button");
 			button.innerHTML = "-";
 			button.className = "removeButton";
@@ -198,9 +204,9 @@ function addIncome() {
 			var amount = Number(document.getElementById("price-input").value);
 			income.innerHTML = document.getElementById("input").value + " $" + amount;
 			income.dataset.amount = amount;
-			income.dataset.day = selectedDay.day;
+			income.dataset.day = selectedDay;
 			document.getElementById("listTitle").appendChild(income);
-			dailyIncome[month][selectedDay.day].push(amount);
+			dailyIncome[month][selectedDay].push(amount);
 			var button = document.createElement("button");
 			button.innerHTML = "-";
 			button.className = "removeButton";
