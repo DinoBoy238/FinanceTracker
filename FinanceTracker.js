@@ -23,6 +23,7 @@ var expensesNumber = [];
 var incomesNumber = [];
 var change = month;
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+var divList = [[],[],[],[],[],[],[],[],[],[],[],[]];
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -137,6 +138,15 @@ function updateTotalsDisplay(remove, expense, income) {
 function populateCalendar(move) {
 	if (move) {
 		change = change + move;
+		for (i = 0; i < divList; i++)  {
+			for (y = 0; y < divList[Month]; y++) {
+				//turn expense into current day type struff
+			}
+			
+		}
+		divList[month]
+		month = month + move;
+		divList[month].classList.remove('hidden');
 	}
 	firstDay = new Date(year, change, 1).getDay();
 	lastDay = new Date(year, change+1, 0).getDate();
@@ -166,6 +176,7 @@ function addExpenses() {
 			expense.dataset.day = selectedDay;
 			document.getElementById("listTitle").appendChild(expense);
 			dailyExpenses[month][selectedDay].push(amount);
+			divList[month].push(expense);
 			var button = document.createElement("button");
 			button.innerHTML = "-";
 			button.className = "removeButton";
@@ -207,6 +218,7 @@ function addIncome() {
 			income.dataset.day = selectedDay;
 			document.getElementById("listTitle").appendChild(income);
 			dailyIncome[month][selectedDay].push(amount);
+			divList[month][selectedDay].push(expense);
 			var button = document.createElement("button");
 			button.innerHTML = "-";
 			button.className = "removeButton";
