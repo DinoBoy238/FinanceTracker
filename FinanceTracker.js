@@ -93,13 +93,31 @@ document.addEventListener("DOMContentLoaded", function() {
 })
 
 function updateTotalsDisplay(remove, expense, income) {
-	let incomeTotal = dailyIncome[month][selectedDay].reduce((a, b) => Number(a) + Number(b), 0);
-	let expenseTotal = dailyExpenses[month][selectedDay].reduce((a, b) => Number(a) + Number(b), 0);
-	let finalTotal = incomeTotal + expenseTotal;
-	let numExpenses = dailyExpenses[month][selectedDay].length;
-	let numIncomes = dailyIncome[month][selectedDay].length;
-	let avgExpensePerDay;
-	let avgIncomePerDay;
+	let incomeTotal = 0;
+	let numIncomes = 0;
+	let expenseTotal = 0;
+	let numExpenses = 0;
+	let finalTotal = 0;
+	totalExpenses = 0;
+	totalIncome = 0;
+	let monthlyExpenses = 0;
+	let monthlyIncome = 0;
+	if (dailyIncome[month][selectedDay]) {
+		incomeTotal = dailyIncome[month][selectedDay].reduce((a, b) => Number(a) + Number(b), 0);
+		numIncomes = dailyIncome[month][selectedDay].length;
+	}
+	
+	if (dailyExpenses[month][selectedDay]) {
+		expenseTotal = dailyExpenses[month][selectedDay].reduce((a, b) => Number(a) + Number(b), 0);
+		numExpenses = dailyExpenses[month][selectedDay].length;
+	}
+
+	finalTotal = (incomeTotal || 0) + (expenseTotal || 0);
+	
+	let avgExpensePerDay = numExpenses > 0 ? Math.abs(expenseTotal) / numExpenses : 0;
+	let avgIncomePerDay = numIncomes > 0 ? incomeTotal / numIncomes : 0;
+	
+	
 
 
 	if (numExpenses > 0) {
@@ -113,66 +131,92 @@ function updateTotalsDisplay(remove, expense, income) {
 	else {
 		avgIncomePerDay = 0;
 	}
-	
 	totalExpenses = 0;
 	totalIncome = 0;
-	
-	for (let i = 0; i < 43; i++) {
-		if (dailyExpenses[month][i] != null) {
-			totalExpenses += dailyExpenses[month][i].reduce((a, b) => Number(a) + Number(b), 0);
-		}
-		if (dailyIncome[month][i]) {
-			totalIncome += dailyIncome[month][i].reduce((a, b) => Number(a) + Number(b), 0);
+	for (let y = 0; y < 12; y++) {
+		for (let i = 0; i < 43; i++) {
+			if (dailyExpenses[y][i] != null) {
+				totalExpenses += dailyExpenses[y][i].reduce((a, b) => Number(a) + Number(b), 0);
+			}
+			if (dailyIncome[y][i]) {
+				totalIncome += dailyIncome[y][i].reduce((a, b) => Number(a) + Number(b), 0);
+			}
 		}
 	}
-	
+	for (let i = 0; i < 43; i++) {
+		if (dailyExpenses[month][i] != null) {
+			monthlyExpenses += dailyExpenses[month][i].reduce((a, b) => Number(a) + Number(b), 0);
+		}
+		if (dailyIncome[month][i]) {
+			monthlyIncome += dailyIncome[month][i].reduce((a, b) => Number(a) + Number(b), 0);
+		}
+	}
+	let numIncomesMonth = 0;
+	for (let i = 0; i < 43; i++) {
+		if (dailyIncome[month][i]) {
+			numIncomesMonth += dailyIncome[month][i].length;
+		}
+	}
+	let numExpensesMonth = 0;
+	for (let i = 0; i < 43; i++) {
+		if (dailyExpenses[month][i]) {
+			numExpensesMonth += dailyExpenses[month][i].length;
+		}
+	}
+	let averageExpensePerMonth = monthlyExpenses / (numExpensesMonth || 1);
+	let averageIncomePerMonth = monthlyIncome / (numIncomesMonth || 1);
+	let totalMonthlyAverage = averageIncomePerMonth + averageExpensePerMonth;
+	let averageDailyBalance = avgIncomePerDay + avgExpensePerDay;
+	let totalMonthly = monthlyExpenses + monthlyIncome;
 	let totalFinal = totalIncome + totalExpenses;
-	document.getElementById("currentDayBalance").innerHTML = "Day Current Balance: $" + finalTotal.toFixed(2);
-	document.getElementById("currentDayBalance").innerHTML = "Day Current Balance: $" + finalTotal.toFixed(2);
+	
 	document.getElementById("totalExpenses").innerHTML = "Total Expenses: $" + totalExpenses.toFixed(2);
 	document.getElementById("totalIncome").innerHTML = "Total Income: $" + totalIncome.toFixed(2);
 	document.getElementById("totalBalance").innerHTML = "Total Balance: $" + totalFinal.toFixed(2);
-	document.getElementById("monthlyExpenses").innerHTML = "Monthly Expenses: $" + totalExpenses.toFixed(2);
-	document.getElementById("monthlyIncome").innerHTML = "Monthly Income: $" + totalIncome.toFixed(2);
-	document.getElementById("monthlyBalance").innerHTML = "Monthly Balance: $" + totalFinal.toFixed(2);
+	document.getElementById("monthlyExpenses").innerHTML = "Monthly Expenses: $" + monthlyExpenses.toFixed(2);
+	document.getElementById("monthlyIncome").innerHTML = "Monthly Income: $" + monthlyIncome.toFixed(2);
+	document.getElementById("monthlyBalance").innerHTML = "Monthly Balance: $" + totalMonthly.toFixed(2);
 	document.getElementById("averageExpenses").innerHTML = "Average Expenses For Today: $" + avgExpensePerDay.toFixed(2);
 	document.getElementById("averageIncome").innerHTML = "Average Incomes For Today: $" + avgIncomePerDay.toFixed(2);
-	document.getElementById("averageBalance").innerHTML = "Current Day Balance: $" + finalTotal.toFixed(2);
+	document.getElementById("averageBalance").innerHTML = "Average Current Day Balance: $" + averageDailyBalance.toFixed(2);
+	document.getElementById("averageMonthlyExpenses").innerHTML = "Average Monthly Expenses: $" + averageExpensePerMonth.toFixed(2);
+	document.getElementById("averageMonthlyIncome").innerHTML = "Average Monthly Income: $" + averageIncomePerMonth.toFixed(2);
+	document.getElementById("averageMonthly").innerHTML = "Average Monthly Balance: $" + totalMonthlyAverage.toFixed(2);
+	document.getElementById("currentDayExpenses").innerHTML = "Day Current Expenses: $" + totalExpenses.toFixed(2);
+	document.getElementById("currentDayIncome").innerHTML = "Day Current Income: $" + totalIncome.toFixed(2);
+	document.getElementById("currentDayBalance").innerHTML = "Day Current Balance: $" + finalTotal.toFixed(2);
 }
 
 function populateCalendar(move) {
 	for (i = 0; i < 42; i++) {
-		divList[month][i] = [];
+		divList[month][i] = divList[month][i] || [];
 	}
 	if (move) {
-		change = change + move;
-		for (i = 0; i < divList.length; i++)  {
-			for (z = 0; z < 42; z++) {
-				if (divList[month][z]) {
-					for (y = 0; y < divList[month][z].length; y++) {
-						if (divList[month][z][y]){
-							divList[month][z][y].style.display = "none";
-						}
+		// Hide current month's items
+		for (let z = 0; z < 42; z++) {
+			if (divList[month][z]) {
+				for (let y = 0; y < divList[month][z].length; y++) {
+					if (divList[month][z][y]) {
+						divList[month][z][y].style.display = "none";
 					}
 				}
-			}	
+			}
 		}
-		divList[month]
-		console.log(month);
+
+		change = change + move;
 		month = month + move;
-		console.log(month);
-		for (i = 0; i < divList.length; i++)  {
-			for (z = 0; z < 42; z++) {
-				if (divList[month][z]) {
-					for (y = 0; y < divList[month][z].length; y++) {
-						if (divList[month][z][y]){
-							divList[month][z][y].style.display = "block";
-						}
+
+		for (let z = 0; z < 42; z++) {
+			if (divList[month][z]) {
+				for (let y = 0; y < divList[month][z].length; y++) {
+					if (divList[month][z][y]) {
+						divList[month][z][y].style.display = "block";
 					}
 				}
-			}	
+			}
 		}
 	}
+
 	firstDay = new Date(year, change, 1).getDay();
 	lastDay = new Date(year, change+1, 0).getDate();
 	let w = 1;
@@ -186,6 +230,7 @@ function populateCalendar(move) {
 			document.getElementById(i).style = "color: transparent";
 		}
 	}
+	updateTotalsDisplay();
 	document.getElementById("monthTitle").innerHTML = months[new Date(year, change, 1).getMonth()];
 	document.getElementById("yearTitle").innerHTML = new Date(year, change, 1).getFullYear();
 }
@@ -289,7 +334,7 @@ function removeIncome() {
 	const element = this.parentElement;
 	const amount = Number(element.dataset.amount);
 	const day = element.dataset.day;
-	const index = [month][day].indexOf(amount);
+	const index = dailyIncome[month][day].indexOf(amount);
 	if (index > -1) {
 		dailyIncome[month][day].splice(index, 1);
 	}
