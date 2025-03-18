@@ -3,6 +3,9 @@ table {
 	background-color: gray;
 	color: white;
 	border: .13rem solid black;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: .5vh;
 }
 
 #monthTitle {
@@ -34,11 +37,14 @@ td:hover {
 	color: black;
 }
 
+
+
 #input {
 	text-align: center;
 	background-color: rgb(138, 193, 255);
 	color: black;
 	border: .14rem solid black;
+	margin: 1rem;
 }
 
 #price-input {
@@ -46,6 +52,7 @@ td:hover {
 	background-color: rgb(138, 193, 255);
 	color: black;
 	border: .14rem solid black;
+	margin: 1rem;
 }
 
 #listTitle {
@@ -61,7 +68,7 @@ td:hover {
 	background-color: rgb(138, 193, 255);
 	color: black;
 	border: .14rem solid black;
-	width: 86.5%;
+	width: 90%;
 	padding: 1rem;
 }
 
@@ -70,6 +77,7 @@ td:hover {
 	background-color: rgb(255, 88, 88);
 	color: rgb(0, 0, 0);
 	border: .14rem solid black;
+	margin: 1rem;
 }
 
 #addIncome {
@@ -77,6 +85,13 @@ td:hover {
 	background-color: rgb(88, 255, 124);
 	color: rgb(0, 0, 0);
 	border: .14rem solid black;
+	margin: 1rem;
+}
+
+#container {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
 }
 
 .expense {
@@ -110,6 +125,7 @@ td:hover {
 	border: .14rem solid black;
 	width: 45%;
 	display: inline-block;
+	margin: 1rem;
 }
 
 .monthly {
@@ -119,6 +135,7 @@ td:hover {
 	border: .14rem solid black;
 	width: 45%;
 	display: inline-block;
+	margin: 1rem;
 }
 
 .average {
@@ -128,6 +145,7 @@ td:hover {
 	border: .14rem solid black;
 	width: 45%;
 	display: inline-block;
+	margin: 1rem;
 }
 
 .currentDay {
